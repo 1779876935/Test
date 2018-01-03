@@ -8,6 +8,7 @@
  */
 package com.zxiaofan.dubboProvidder.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -15,8 +16,13 @@ import java.util.Date;
  * 
  * @author xiaofan
  */
-public class UserDo {
-    private String tableName;
+public class UserDo implements Serializable {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private String tableName;
 
     private Integer id;
 
