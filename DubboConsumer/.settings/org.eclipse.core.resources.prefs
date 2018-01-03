@@ -1,2 +1,6 @@
 eclipse.preferences.version=1
+encoding//WebContent/WEB-INF/config/dubbo.properties=UTF-8
+encoding//WebContent/WEB-INF/config/param.properties=UTF-8
+encoding//test/com/zxiaofan/test/config/dubbo.properties=UTF-8
+encoding//test/com/zxiaofan/test/config/param.properties=UTF-8
 encoding/<project>=UTF-8
