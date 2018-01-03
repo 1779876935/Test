@@ -8,10 +8,13 @@
  */
 package com.zxiaofan.dubboConsumer.service;
 
+import com.zxiaofan.dubboProvidder.model.UserDo;
+
 /**
  * 
  * @author zxiaofan
  */
 public interface IConsumerService {
     String hi(String name);
+    String saveuser(UserDo userDo);
 }
