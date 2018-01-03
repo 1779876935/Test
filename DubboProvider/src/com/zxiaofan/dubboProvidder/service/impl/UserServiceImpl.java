@@ -26,7 +26,6 @@ public class UserServiceImpl implements IUserService {
 
     /**
      * {@inheritDoc}.
-     * 新增用户
      */
     @Override
     public int insert(UserDo userDo) {

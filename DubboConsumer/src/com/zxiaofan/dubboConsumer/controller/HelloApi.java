@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.zxiaofan.dubboConsumer.service.IConsumerService;
-import com.zxiaofan.dubboProvidder.model.UserDo;
 
 /**
  * 对外开放的Http接口.
@@ -81,13 +80,5 @@ public class HelloApi {
         System.out.println("api_param:" + json); // 入参
         result = consumerService.hi(json); // 业务处理
         return result;
-    }
-    
-    @RequestMapping(value="/saveUser", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
-    public String saveUser(HttpServletRequest request, HttpServletResponse response){
-    	UserDo userDo = new UserDo();
-    	userDo.setTableName("user");
-    	String str = consumerService.saveuser(userDo);
-    	return str;
     }
 }

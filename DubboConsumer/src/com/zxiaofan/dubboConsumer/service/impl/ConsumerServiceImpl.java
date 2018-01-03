@@ -8,8 +8,6 @@
  */
 package com.zxiaofan.dubboConsumer.service.impl;
 
-import java.util.Date;
-
 import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -17,7 +15,6 @@ import org.springframework.stereotype.Component;
 
 import com.zxiaofan.dubboConsumer.service.IConsumerService;
 import com.zxiaofan.dubboProvidder.model.HelloBo;
-import com.zxiaofan.dubboProvidder.model.UserDo;
 import com.zxiaofan.dubboProvidder.service.IProviderService;
 import com.zxiaofan.dubboProvidder.service.IUserService;
 
@@ -61,16 +58,5 @@ public class ConsumerServiceImpl implements IConsumerService {
         result += "; This is dubboConsumer[" + url + "]";
         return result;
     }
-    
-	@Override
-	public String saveuser(UserDo userDo) {
-		userDo.setId(123);
-		userDo.setUserName("测试");
-		userDo.setAge(16);
-		userDo.setIsDelete(20991212);
-		userDo.setAddTime(new Date());
-		
-		int insert = userService.insert(userDo);
-    	return String.valueOf(insert);
-	}
+
 }
