@@ -84,6 +84,7 @@ public class HelloApi {
     }
     
     @RequestMapping(value="/saveUser", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
+    @ResponseBody
     public String saveUser(HttpServletRequest request, HttpServletResponse response){
     	UserDo userDo = new UserDo();
     	userDo.setTableName("user");
