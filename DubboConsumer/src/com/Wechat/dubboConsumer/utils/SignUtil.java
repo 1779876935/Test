@@ -1,4 +1,4 @@
-package com.Wechat.dubboConsumer.service;
+package com.Wechat.dubboConsumer.utils;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
