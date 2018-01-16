@@ -12,17 +12,39 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.io.Writer;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.dom4j.Document;
+import org.dom4j.Element;
+import org.dom4j.io.SAXReader;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.Wechat.dubboConsumer.Service.CoreService;
+import com.Wechat.dubboConsumer.rsp.Article;
+import com.Wechat.dubboConsumer.rsp.MusicMessage;
+import com.Wechat.dubboConsumer.rsp.NewsMessage;
+import com.Wechat.dubboConsumer.rsp.TextMessage;
+import com.Wechat.dubboConsumer.utils.SignUtil;
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.core.util.QuickWriter;
+import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
+import com.thoughtworks.xstream.io.xml.PrettyPrintWriter;
+import com.thoughtworks.xstream.io.xml.XppDriver;
 import com.zxiaofan.dubboConsumer.service.IConsumerService;
 import com.zxiaofan.dubboProvidder.model.UserDo;
 
@@ -83,12 +105,72 @@ public class HelloApi {
         return result;
     }
     
-    @RequestMapping(value="/saveUser", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
+    @RequestMapping(value="/saveUser", method = RequestMethod.POST,produces = "application/json;charset=utf-8")
     @ResponseBody
-    public String saveUser(HttpServletRequest request, HttpServletResponse response){
+    public String saveUser(HttpServletRequest request,@RequestParam(required=false,defaultValue="123",value="userName") String userName,@RequestParam(required=false,defaultValue="123",value="userAge") String userAge){
+    	String parameter1 = request.getParameter("userName");
+    	String parameter2 = request.getParameter("userAge");
+    	System.out.println(parameter1+parameter2);
+    	System.out.println(userName+userAge);
     	UserDo userDo = new UserDo();
     	userDo.setTableName("user");
     	String str = consumerService.saveuser(userDo);
     	return str;
+    }
+    
+    @RequestMapping(value="/wx")
+    @ResponseBody
+    public String getWechatRequest(HttpServletRequest request,HttpServletResponse response){
+    	String str = null;
+    	// 微信加密签名  
+        String signature = request.getParameter("signature");  
+        // 时间戳  
+        String timestamp = request.getParameter("timestamp");  
+        // 随机数  
+        String nonce = request.getParameter("nonce");  
+        // 随机字符串  
+        String echostr = request.getParameter("echostr"); 
+        System.out.println("微信加密签名:"+signature);
+        System.out.println("时间戳 :"+timestamp);
+        System.out.println("随机数:"+nonce);
+        System.out.println("随机字符串:"+echostr);
+        if (SignUtil.checkSignature(signature, timestamp, nonce)) {
+        	str = echostr;
+		}
+		return str;
+    }
+    
+    
+    
+    @RequestMapping(value="/wx",method = RequestMethod.POST)
+    @ResponseBody
+    public String WechatRequest(HttpServletRequest request,HttpServletResponse response){
+    	 
+        // 调用核心业务类接收消息、处理消息  
+        String respMessage = CoreService.processRequest(request); 
+//    	try {
+//			Map<String, String> reqmap = parseXml(request);
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//    	
+//    	String str = null;
+//    	// 微信加密签名  
+//        String signature = request.getParameter("signature");  
+//        // 时间戳  
+//        String timestamp = request.getParameter("timestamp");  
+//        // 随机数  
+//        String nonce = request.getParameter("nonce");  
+//        // 随机字符串  
+//        String echostr = request.getParameter("echostr"); 
+//        System.out.println("微信加密签名:"+signature);
+//        System.out.println("时间戳 :"+timestamp);
+//        System.out.println("随机数:"+nonce);
+//        System.out.println("随机字符串:"+echostr);
+//        if (SignUtil.checkSignature(signature, timestamp, nonce)) {
+//        	str = echostr;
+//		}
+		return respMessage;
     }
 }
