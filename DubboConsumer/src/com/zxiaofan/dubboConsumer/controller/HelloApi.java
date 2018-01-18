@@ -63,6 +63,9 @@ import com.zxiaofan.dubboProvidder.model.UserDo;
 public class HelloApi {
     @Resource(name = "consumerService")
     private IConsumerService consumerService;
+    
+    @Resource(name = "coreService")
+    private CoreService coreService;
 
     @RequestMapping(value = "/api", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
     @ResponseBody
@@ -145,41 +148,8 @@ public class HelloApi {
     @RequestMapping(value="/wx",method = RequestMethod.POST)
     @ResponseBody
     public String WechatRequest(HttpServletRequest request,HttpServletResponse response){
-    	
-    	// 将请求、响应的编码均设置为UTF-8（防止中文乱码）  
-        try {
-			request.setCharacterEncoding("GBK");
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}  
-        response.setCharacterEncoding("GBK");  
-  
         // 调用核心业务类接收消息、处理消息  
-        String respMessage = CoreService.processRequest(request); 
-//    	try {
-//			Map<String, String> reqmap = parseXml(request);
-//		} catch (Exception e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//    	
-//    	String str = null;
-//    	// 微信加密签名  
-//        String signature = request.getParameter("signature");  
-//        // 时间戳  
-//        String timestamp = request.getParameter("timestamp");  
-//        // 随机数  
-//        String nonce = request.getParameter("nonce");  
-//        // 随机字符串  
-//        String echostr = request.getParameter("echostr"); 
-//        System.out.println("微信加密签名:"+signature);
-//        System.out.println("时间戳 :"+timestamp);
-//        System.out.println("随机数:"+nonce);
-//        System.out.println("随机字符串:"+echostr);
-//        if (SignUtil.checkSignature(signature, timestamp, nonce)) {
-//        	str = echostr;
-//		}
-		return respMessage;
+        String respMessage = coreService.processRequest(request); 
+        return respMessage;
     }
 }
