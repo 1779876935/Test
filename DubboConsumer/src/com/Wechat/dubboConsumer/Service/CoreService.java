@@ -1,21 +1,31 @@
 package com.Wechat.dubboConsumer.Service;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.stereotype.Component;
 
 import com.Wechat.dubboConsumer.rsp.TextMessage;
 import com.Wechat.dubboConsumer.utils.MessageUtil;
-
+import com.alibaba.dubbo.config.annotation.Service;
+import com.alibaba.fastjson.JSON;
+import com.zxiaofan.dubboProvidder.model.UserDo;
+@Service
+@Component("coreService")
 public class CoreService {
+	@Resource(name="wxUserService")
+	private wxUserService userService;
 	/** 
      * 处理微信发来的请求 
      *  
      * @param request 
      * @return 
      */  
-    public static String processRequest(HttpServletRequest request) {  
+    public String processRequest(HttpServletRequest request) {  
         String respMessage = null;  
         try {  
             // 默认返回的文本消息内容  
@@ -38,10 +48,19 @@ public class CoreService {
             textMessage.setCreateTime(new Date().getTime());  
             textMessage.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);  
             textMessage.setFuncFlag(0);  
-  
             // 文本消息  
-            if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_TEXT)) {  
-                respContent = "您发送的是文本消息！";  
+            if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_TEXT)) { 
+            	UserDo user = new UserDo() ;
+            	user.setId(123);
+            	user.setUserName("Wx测试");;
+            	user.setAddTime(new Date());
+            	user.setAge(12);
+            	user.setTableName("user");;
+            	String str = userService.saveUser(user);
+            	str = "<a href='http://download.csdn.net/download/helloniou/8115541'>测试</a>";
+//                respContent = "您发送的是文本消息！";  
+                respContent = "成功保存"+str+"条！"; 
+               
             }  
             // 图片消息  
             else if (msgType.equals(MessageUtil.REQ_MESSAGE_TYPE_IMAGE)) {  
