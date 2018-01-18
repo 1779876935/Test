@@ -6,20 +6,44 @@
     http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd  
     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
     http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.1.xsd">
+	    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">  
+            <property name="messageConverters">  
+                <list>  
+                    <bean id="stringHttpMessageConverter" class="org.springframework.http.converter.StringHttpMessageConverter">  
+                        <property name="writeAcceptCharset" value="false" /> <!--  用于避免响应头过大  -->  
+                        <property name="supportedMediaTypes">  
+                            <list>  
+                                <value>application/json;charset=UTF-8</value>  
+                            </list>  
+                        </property>  
+                    </bean>  
+                </list>  
+            </property>  
+        </bean>   
+
+
+	<!-- <mvc:annotation-driven>  
+    解决@ResponseBody中文乱码  
+        <mvc:message-converters>  
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter">  
+                <constructor-arg value="UTF-8" />  
+            </bean>  
+        </mvc:message-converters>  
+    </mvc:annotation-driven> -->
 
     <!-- 自动扫描的包名 -->
-    <!-- <context:component-scan base-package="com.zxiaofan"></context:component-scan> -->
+    <context:component-scan base-package="com.zxiaofan"></context:component-scan>
     <!-- 默认的注解映射的支持 -->
     
     
-    <!-- <bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+   <!--  <bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
         <property name="urlMap">
             <map>
                 <entry key="/api/boy" value="myResourceHandler" />
             </map>
         </property>
         <property name="order" value="100000" />
-    </bean>
+    </bean> -->
     <bean id="myResourceHandler" name="myResourceHandler"
         class="org.springframework.web.servlet.resource.ResourceHttpRequestHandler">
         <property name="locations" value="/api/" />
@@ -31,5 +55,6 @@
             </list>
         </property>
 
-    </bean> -->
+    </bean>
+
 </beans>
