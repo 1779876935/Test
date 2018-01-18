@@ -104,15 +104,18 @@ public class MessageUtil {
         Element root = document.getRootElement();  
         // 得到根元素的所有子节点  
         List<Element> elementList = root.elements();  
-  
+        System.out.println("接收XML数据域：");
+        System.out.println("<xml>");
+        
         // 遍历所有子节点  
-        for (Element e : elementList)  
-            map.put(e.getName(), e.getText());  
-  
+        for (Element e : elementList)  {
+            map.put(e.getName(), e.getText());
+            System.out.println("<"+e.getName()+">"+ e.getText()+"</"+e.getName()+">");
+        }
         // 释放资源  
         inputStream.close();  
         inputStream = null;  
-  
+        System.out.println("</xml>");
         return map;  
     }  
   
@@ -165,7 +168,7 @@ public class MessageUtil {
                 public void startNode(String name, Class clazz) {  
                     super.startNode(name, clazz);  
                 }  
-  
+
                 protected void writeText(QuickWriter writer, String text) {  
                     if (cdata) {  
                         writer.write("<![CDATA[");  
