@@ -1,5 +1,3 @@
 
 DubboProvider/.settings/org.eclipse.core.resources.prefs
 *.prefs
-DubboProvider/WebContent/WEB-INF/config/dubbo.properties
-DubboConsumer/WebContent/WEB-INF/config/dubbo.properties
